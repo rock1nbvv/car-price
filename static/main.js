@@ -11,12 +11,13 @@ const TaskApp = {
             age: '',
             mileage: '',
             repairments: '',
+            checked:'',
             cars: [
-    {brand: 'Toyota', price: 50000},
-    {brand: 'Ford', price: 80000},
-    {brand: 'VW', price: 90000},
-    {brand: 'Mercedes', price: 165000}
-]
+                {brand: 'Toyota', price: 50000},
+                {brand: 'Ford', price: 80000},
+                {brand: 'VW', price: 90000},
+                {brand: 'Mercedes', price: 165000}
+            ]
         }
 
     },
@@ -44,13 +45,26 @@ const TaskApp = {
 
         },
         async createTask() {
-            await this.getTasks()
+            if (this.task.title === '' || this.task === null || this.task.value === 0
+                || this.age === '' || this.age === null || this.age.value === 0
+                || this.mileage === '' || this.mileage === null || this.mileage.value === 0
+                || this.repairments === '' || this.repairments === null || this.repairments.value === 0) {
+                alert('Please fill all the fields');
+            } else {
+                alert(this.age + ' ' + this.mileage + ' ' + this.repairments)
+                this.printCar({age: this.age, mileage: this.mileage, repairments: this.repairments})
 
-            await this.sendRequest(window.location + 'create', 'post', JSON.stringify(this.task))
+                await this.getTasks()
 
-            await this.getTasks()
+                await this.sendRequest(window.location + 'create', 'post', JSON.stringify(this.task))
 
-            this.task.title = ''
+                await this.getTasks()
+
+                this.task.title = ''
+                this.age = ''
+                this.mileage = ''
+                this.repairments= ''
+            }
         },
         async deleteTask(task) {
             await this.sendRequest(window.location + 'delete', 'post', JSON.stringify(task))
@@ -64,16 +78,6 @@ const TaskApp = {
             let keyCode = event.keyCode;
             if (keyCode < 48 || keyCode > 57) {
                 event.preventDefault();
-            }
-        },
-        warn(age, mileage, repairments) {
-            if (this.age === '' || this.age === null || this.age.value === 0
-                || this.mileage === '' || this.mileage === null || this.mileage.value === 0
-                || this.repairments === '' || this.repairments === null || this.repairments.value === 0) {
-                alert('Please fill all the fields');
-            } else {
-                alert(age + ' ' + mileage + ' ' + repairments)
-                this.printCar({age: age, mileage: mileage, repairments: repairments})
             }
         },
         printCar(Car) {

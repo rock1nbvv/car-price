@@ -22,10 +22,15 @@
                             { car.brand }
                         </option>
                     </select>
+                    <div>
+                        <label for="checkbox">All documents are fine</label>
+                    </div>
+                    <input type="checkbox" id="checkbox" v-model="checked"/>
+
                 </div>
             </div>
             <div class="col-auto mt-auto">
-                <button @click="warn(age, mileage, repairments)" class="btn btn-success" type="submit">Create
+                <button class="btn btn-success" type="submit">Create
                 </button>
             </div>
         </form>
