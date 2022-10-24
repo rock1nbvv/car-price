@@ -1,6 +1,6 @@
 const {createApp} = Vue
-
 const TaskApp = {
+
     data() {
         return {
             task: {
@@ -11,12 +11,12 @@ const TaskApp = {
             age: '',
             mileage: '',
             repairments: '',
-            options: [
-                {text: 'One', value: 'A'},
-                {text: 'Two', value: 'B'},
-                {text: 'Three', value: 'C'},
-                {text: 'Four', value: 'D'}
-            ]
+            cars: [
+    {brand: 'Toyota', price: 50000},
+    {brand: 'Ford', price: 80000},
+    {brand: 'VW', price: 90000},
+    {brand: 'Mercedes', price: 165000}
+]
         }
 
     },
@@ -66,12 +66,6 @@ const TaskApp = {
                 event.preventDefault();
             }
         },
-        printCar(Car) {
-            console.log('Car age is ' + Car.age)
-            console.log('Car mileage is ' + Car.mileage)
-            console.log('Car repairments number is ' + Car.repairments)
-
-        },
         warn(age, mileage, repairments) {
             if (this.age === '' || this.age === null || this.age.value === 0
                 || this.mileage === '' || this.mileage === null || this.mileage.value === 0
@@ -81,6 +75,12 @@ const TaskApp = {
                 alert(age + ' ' + mileage + ' ' + repairments)
                 this.printCar({age: age, mileage: mileage, repairments: repairments})
             }
+        },
+        printCar(Car) {
+            console.log('Car age is ' + Car.age)
+            console.log('Car mileage is ' + Car.mileage)
+            console.log('Car repairments number is ' + Car.repairments)
+
         }
     },
     delimiters: ['{', '}']

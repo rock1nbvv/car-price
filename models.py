@@ -22,3 +22,19 @@ class Task(app.db.Model):
 
     def __repr__(self):
         return f'<Task id: {self.id} - {self.title}'
+
+
+class CarBrand(app.db.Model):
+    id: int
+    title: str
+    price: int
+
+    id = app.db.Column(app.db.Integer(), primary_key=True)
+    title = app.db.Column(app.db.String(140))
+    price = app.db.Column(app.db.Integer())
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def __repr__(self):
+        return f'<CarBrand id: {self.id} - {self.title}'
