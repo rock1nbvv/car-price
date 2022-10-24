@@ -11,8 +11,9 @@ const TaskApp = {
             age: '',
             mileage: '',
             repairments: '',
-            checked:'',
-            brands : [],
+            checked: false,
+            brand_price: '',
+            brands: [],
         }
     },
     async created() {
@@ -51,7 +52,14 @@ const TaskApp = {
                 alert('Please fill all the fields');
             } else {
                 alert(this.age + ' ' + this.mileage + ' ' + this.repairments)
-                this.printCar({age: this.age, mileage: this.mileage, repairments: this.repairments})
+                this.printCar({
+                    taskTitle: this.task.title,
+                    age: this.age,
+                    mileage: this.mileage,
+                    repairments: this.repairments,
+                    brand_price: this.brand_price,
+                    documents: this.checked
+                })
 
                 await this.getTasks()
 
@@ -62,7 +70,7 @@ const TaskApp = {
                 this.task.title = ''
                 this.age = ''
                 this.mileage = ''
-                this.repairments= ''
+                this.repairments = ''
             }
         },
         async deleteTask(task) {
@@ -80,10 +88,12 @@ const TaskApp = {
             }
         },
         printCar(Car) {
+            console.log('Task title is ' + Car.taskTitle)
             console.log('Car age is ' + Car.age)
             console.log('Car mileage is ' + Car.mileage)
             console.log('Car repairments number is ' + Car.repairments)
-
+            console.log('Car brand price is ' + Car.brand_price)
+            console.log('Car documents check is ' + Car.documents)
         }
     },
     delimiters: ['{', '}']

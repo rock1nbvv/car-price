@@ -16,8 +16,8 @@
                     <label>Repairments number is: { repairments }</label>
                     <input type="text" class="form-control" v-model="repairments" placeholder="number of repairments"
                            @keypress="validateNumber"/>
-                    <label>Brand price: { selected }</label>
-                    <select v-model="selected" class="form-control" placeholder="car brand">
+                    <label>Brand price: { brand_price }</label>
+                    <select v-model="brand_price" class="form-control" placeholder="car brand">
                         <option v-for="brand in brands" :value="brand.price">
                             { brand.name }
                         </option>

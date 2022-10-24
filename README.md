@@ -9,6 +9,7 @@
    `from models import Task`
    `from models import CarBrands`
    `db.create_all()`
+   run `brand.sql`
 
 4. optional:
    t1 = Task(title='New task 1')
