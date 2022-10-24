@@ -44,7 +44,7 @@ def get_brands():
 def create_task():
     user_input = request.get_json()
 
-    form = TaskForm(data=user_input)
+    form = TaskForm(data=user_input) #todo parse not only task.title but car object
 
     if form.validate():
         task = models.Task(title=form.title.data)

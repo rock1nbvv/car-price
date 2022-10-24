@@ -14,6 +14,7 @@ const TaskApp = {
             checked: false,
             brand_price: '',
             brands: [],
+            car: {}
         }
     },
     async created() {
@@ -52,25 +53,27 @@ const TaskApp = {
                 alert('Please fill all the fields');
             } else {
                 alert(this.age + ' ' + this.mileage + ' ' + this.repairments)
-                this.printCar({
+                this.car = {
                     taskTitle: this.task.title,
                     age: this.age,
                     mileage: this.mileage,
                     repairments: this.repairments,
                     brand_price: this.brand_price,
                     documents: this.checked
-                })
+                }
+                this.printCar(this.car)
 
                 await this.getTasks()
 
-                await this.sendRequest(window.location + 'create', 'post', JSON.stringify(this.task))
+                await this.sendRequest(window.location + 'create', 'post', JSON.stringify(this.task))//todo return not this.task but this.car
 
                 await this.getTasks()
 
-                this.task.title = ''
+                this.task = ''
                 this.age = ''
                 this.mileage = ''
                 this.repairments = ''
+                this.car = {}
             }
         },
         async deleteTask(task) {
