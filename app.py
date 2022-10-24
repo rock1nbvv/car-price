@@ -30,6 +30,16 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/brands')
+def get_brands():
+    brands = models.Brand.query.all()
+
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify(brands)
+
+    return render_template('index.html')
+
+
 @app.route('/create', methods=['POST'])
 def create_task():
     user_input = request.get_json()

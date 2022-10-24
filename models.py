@@ -24,17 +24,18 @@ class Task(app.db.Model):
         return f'<Task id: {self.id} - {self.title}'
 
 
-class CarBrand(app.db.Model):
+@dataclass
+class Brand(app.db.Model):
     id: int
-    title: str
+    name: str
     price: int
 
     id = app.db.Column(app.db.Integer(), primary_key=True)
-    title = app.db.Column(app.db.String(140))
+    name = app.db.Column(app.db.String(100))
     price = app.db.Column(app.db.Integer())
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
     def __repr__(self):
-        return f'<CarBrand id: {self.id} - {self.title}'
+        return f'<CarBrand id: {self.id} - {self.name} - {self.price}'

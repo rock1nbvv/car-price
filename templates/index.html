@@ -14,16 +14,16 @@
                     <input type="text" class="form-control" v-model="mileage" placeholder="mileage of the car"
                            @keypress="validateNumber"/>
                     <label>Repairments number is: { repairments }</label>
-                    <input type="text" class="form-control" v-model="repairments" placeholder="number of repiarments"
+                    <input type="text" class="form-control" v-model="repairments" placeholder="number of repairments"
                            @keypress="validateNumber"/>
-                    <label>Brand name: { selected }</label>
+                    <label>Brand price: { selected }</label>
                     <select v-model="selected" class="form-control" placeholder="car brand">
-                        <option v-for="car in cars" :key="car.price">
-                            { car.brand }
+                        <option v-for="brand in brands" :value="brand.price">
+                            { brand.name }
                         </option>
                     </select>
                     <div>
-                        <label for="checkbox">All documents are fine</label>
+                        <label for="checkbox">All documents are in order</label>
                     </div>
                     <input type="checkbox" id="checkbox" v-model="checked"/>
 

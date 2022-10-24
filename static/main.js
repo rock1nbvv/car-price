@@ -12,17 +12,12 @@ const TaskApp = {
             mileage: '',
             repairments: '',
             checked:'',
-            cars: [
-                {brand: 'Toyota', price: 50000},
-                {brand: 'Ford', price: 80000},
-                {brand: 'VW', price: 90000},
-                {brand: 'Mercedes', price: 165000}
-            ]
+            brands : [],
         }
-
     },
     async created() {
         await this.getTasks()
+        await this.getBrands()
     },
     methods: {
         async sendRequest(url, method, data) {
@@ -38,6 +33,10 @@ const TaskApp = {
             })
 
             return response
+        },
+        async getBrands() {
+            const response = await this.sendRequest(window.location + 'brands', 'get')
+            this.brands = await response.json()
         },
         async getTasks() {
             const response = await this.sendRequest(window.location, 'get')
