@@ -26,6 +26,32 @@ from forms import TaskForm
 @app.route('/')
 def index():
     tasks = models.Task.query.all()
+    brands = models.Brand.query.all()
+    limit = 10
+    index = 0
+    if len(brands) < limit:
+        marks = requests.get(
+            "https://developers.ria.com/auto/categories/:1/marks?api_key=4mvHbKM5qP9FeuoE2QLYsWaEm8rKptSujd8MYAJn")
+
+        for mark in json.loads(marks.text):
+            if index >= limit:
+                break
+            print("mark " + str(mark["value"]))
+            carmodels = requests.get("https://developers.ria.com/auto/categories/1/marks/" + str(
+                mark["value"]) + "/models?api_key=4mvHbKM5qP9FeuoE2QLYsWaEm8rKptSujd8MYAJn")
+
+            for carmodel in json.loads(carmodels.text):
+                print("model " + str(carmodel["value"]))
+                prices = requests.get(
+                    "https://developers.ria.com/auto/average_price?api_key=4mvHbKM5qP9FeuoE2QLYsWaEm8rKptSujd8MYAJn&marka_id=" + str(
+                        mark["value"]) + "&model_id=" + str(carmodel["value"]) + "& gear_id=1&gear_id=2")
+
+                if prices.json()["percentiles"]["75.0"] != 'NaN':
+                    index += 1
+                    print(carmodel["name"], prices.json()["percentiles"]["75.0"])
+                    brand = models.Brand(name=carmodel["name"], price=prices.json()["percentiles"]["75.0"])
+                    db.session.add(brand)
+                    db.session.commit()
 
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         return jsonify(tasks)
@@ -43,67 +69,46 @@ def get_brands():
     return render_template('index.html')
 
 
-@app.route("/get-models")
-def proxy_example():
-    marks = requests.get(
-        "https://developers.ria.com/auto/categories/:1/marks?api_key=4mvHbKM5qP9FeuoE2QLYsWaEm8rKptSujd8MYAJn")
+@app.route('/create', methods=['POST'])
+def create_task():
+    user_input = request.get_json()
 
-    for mark in json.loads(marks.text):
-        print("mark " + str(mark["value"]))
-        models = requests.get("https://developers.ria.com/auto/categories/1/marks/" + str(
-            mark["value"]) + "/models?api_key=4mvHbKM5qP9FeuoE2QLYsWaEm8rKptSujd8MYAJn")
+    form = TaskForm(data=user_input)  # todo parse not only task.title but car object
 
-        for model in json.loads(models.text):
-            print("model " + str(model["value"]))
-            prices = requests.get(
-                "https://developers.ria.com/auto/average_price?api_key=4mvHbKM5qP9FeuoE2QLYsWaEm8rKptSujd8MYAJn&marka_id=" + str(mark["value"]) + "&model_id=" + str(model["value"]) + "& gear_id=1&gear_id=2")
-
-            # for price in prices.json()["percentiles"]["75.0"]:
-            print(prices.json()["percentiles"]["75.0"])
-
-    return Response(
-        marks.text,
-        status=marks.status_code,
-        content_type=marks.headers['content-type']
-    )
-
-    @app.route('/create', methods=['POST'])
-    def create_task():
-        user_input = request.get_json()
-
-        form = TaskForm(data=user_input)  # todo parse not only task.title but car object
-
-        if form.validate():
-            task = models.Task(title=form.title.data)
-
-            db.session.add(task)
-            db.session.commit()
-
-            return jsonify(task)
-
-        return redirect(url_for(index))
-
-    @app.route('/delete', methods=['POST'])
-    def delete_task():
-        task_id = request.get_json().get('id')
-        task = models.Task.query.filter_by(id=task_id).first()
-
-        db.session.delete(task)
-        db.session.commit()
-
-        return jsonify({'result': 'Ok'}), 200
-
-    @app.route('/complete', methods=['POST'])
-    def complete_task():
-        task_id = request.get_json().get('id')
-        task = models.Task.query.filter_by(id=task_id).first()
-
-        task.completed = True
+    if form.validate():
+        task = models.Task(title=form.title.data)
 
         db.session.add(task)
         db.session.commit()
 
-        return jsonify({'result': 'Ok'}), 200
+        return jsonify(task)
 
-    if __name__ == '__main__':
-        app.run()
+    return redirect(url_for(index))
+
+
+@app.route('/delete', methods=['POST'])
+def delete_task():
+    task_id = request.get_json().get('id')
+    task = models.Task.query.filter_by(id=task_id).first()
+
+    db.session.delete(task)
+    db.session.commit()
+
+    return jsonify({'result': 'Ok'}), 200
+
+
+@app.route('/complete', methods=['POST'])
+def complete_task():
+    task_id = request.get_json().get('id')
+    task = models.Task.query.filter_by(id=task_id).first()
+
+    task.completed = True
+
+    db.session.add(task)
+    db.session.commit()
+
+    return jsonify({'result': 'Ok'}), 200
+
+
+if __name__ == '__main__':
+    app.run()

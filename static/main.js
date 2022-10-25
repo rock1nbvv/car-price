@@ -20,7 +20,6 @@ const TaskApp = {
     async created() {
         await this.getTasks()
         await this.getBrands()
-        await this.sendRequest(window.location + 'get-models', 'get')
     },
     methods: {
         async sendRequest(url, method, data) {
