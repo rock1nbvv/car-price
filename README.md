@@ -12,11 +12,11 @@
    run `brand.sql`
 
 4. optional:
-   t1 = Task(title='New task 1')
-   t2 = Task(title='New task 2')
+   ~~t1 = Task(title='New task 1')~~
+   ~~t2 = Task(title='New task 2')~~
 
-   db.session.add(t1)
-   db.session.add(t2)
+   ~~db.session.add(t1)~~
+   ~~db.session.add(t2)~~
    db.session.commit()
 
 5. `flask run`
