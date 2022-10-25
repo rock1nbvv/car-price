@@ -65,7 +65,7 @@ const TaskApp = {
 
                 await this.getTasks()
 
-                await this.sendRequest(window.location + 'create', 'post', JSON.stringify(this.task))//todo return not this.task but this.car
+                await this.sendRequest(window.location + 'create', 'post', JSON.stringify(this.car))//todo return not this.task but this.car
 
                 await this.getTasks()
 

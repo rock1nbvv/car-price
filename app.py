@@ -72,12 +72,14 @@ def get_brands():
 @app.route('/create', methods=['POST'])
 def create_task():
     user_input = request.get_json()
-
-    form = TaskForm(data=user_input)  # todo parse not only task.title but car object
-
+    form = TaskForm(data=user_input)
     if form.validate():
-        task = models.Task(title=form.title.data)
-
+        task = models.Task(taskTitle=form.taskTitle.data,
+                           age=form.age.data,
+                           mileage=form.mileage.data,
+                           repairments=form.repairments.data,
+                           brand_price=form.brand_price.data,
+                           documents=form.documents.data)
         db.session.add(task)
         db.session.commit()
 

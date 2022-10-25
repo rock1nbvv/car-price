@@ -8,12 +8,22 @@ import app
 class Task(app.db.Model):
 
     id: int
-    title: str
+    taskTitle: str
+    age: int
+    mileage: int
+    repairments: int
+    brand_price: int
+    documents: bool
     date: datetime
     completed: bool
 
     id = app.db.Column(app.db.Integer(), primary_key=True)
-    title = app.db.Column(app.db.String(140))
+    taskTitle = app.db.Column(app.db.String(140))
+    age = app.db.Column(app.db.Integer())
+    mileage = app.db.Column(app.db.Integer())
+    repairments = app.db.Column(app.db.Integer())
+    brand_price = app.db.Column(app.db.Integer())
+    documents = app.db.Column(app.db.Boolean())
     date = app.db.Column(app.db.DateTime(), default=datetime.now())
     completed = app.db.Column(app.db.Boolean(), default=False)
 
