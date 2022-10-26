@@ -27,14 +27,27 @@ from forms import TaskForm
 def index():
     tasks = models.Task.query.all()
     brands = models.Brand.query.all()
+
+
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify(tasks)
+
+    return render_template('index.html')
+
+
+@app.route('/brands')
+def get_brands():
+    brands = models.Brand.query.all()
     limit = 10
     index = 0
     if len(brands) < limit:
+        print('fetching models dictionary')
         marks = requests.get(
             "https://developers.ria.com/auto/categories/:1/marks?api_key=4mvHbKM5qP9FeuoE2QLYsWaEm8rKptSujd8MYAJn")
 
         for mark in json.loads(marks.text):
             if index >= limit:
+                print('fetching models dictionary is done')
                 break
             print("mark " + str(mark["value"]))
             carmodels = requests.get("https://developers.ria.com/auto/categories/1/marks/" + str(
@@ -52,16 +65,6 @@ def index():
                     brand = models.Brand(name=carmodel["name"], price=prices.json()["percentiles"]["75.0"])
                     db.session.add(brand)
                     db.session.commit()
-
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        return jsonify(tasks)
-
-    return render_template('index.html')
-
-
-@app.route('/brands')
-def get_brands():
-    brands = models.Brand.query.all()
 
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         return jsonify(brands)
