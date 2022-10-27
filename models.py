@@ -16,6 +16,7 @@ class Task(app.db.Model):
     documents: bool
     date: datetime
     completed: bool
+    est_price: int
 
     id = app.db.Column(app.db.Integer(), primary_key=True)
     taskTitle = app.db.Column(app.db.String(140))
@@ -26,12 +27,13 @@ class Task(app.db.Model):
     documents = app.db.Column(app.db.Boolean())
     date = app.db.Column(app.db.DateTime(), default=datetime.now())
     completed = app.db.Column(app.db.Boolean(), default=False)
+    est_price = app.db.Column(app.db.Integer())
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
     def __repr__(self):
-        return f'<Task id: {self.id} - {self.title}'
+        return f'<Task id: {self.id} - {self.title} - {self.est_price}'
 
 
 @dataclass

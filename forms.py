@@ -8,4 +8,3 @@ class TaskForm(Form):
     mileage = IntegerField('mileage', validators=[DataRequired()])
     repairments = IntegerField('repairments', validators=[DataRequired()])
     brand_price = IntegerField('brand_price', validators=[DataRequired()])
-    documents = BooleanField('documents', validators=[DataRequired()])

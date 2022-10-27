@@ -12,6 +12,7 @@ from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 
 from config import Config
+from dummy import dummy
 
 load_dotenv('./.flaskenv')
 
@@ -75,20 +76,26 @@ def get_brands():
 @app.route('/create', methods=['POST'])
 def create_task():
     user_input = request.get_json()
+
+    user_input["age"] = int(user_input["age"])
+    user_input["mileage"] = int(user_input["mileage"])
+    user_input["repairments"] = int(user_input["repairments"])
     form = TaskForm(data=user_input)
+    est_price = dummy(user_input)
     if form.validate():
         task = models.Task(taskTitle=form.taskTitle.data,
                            age=form.age.data,
                            mileage=form.mileage.data,
                            repairments=form.repairments.data,
                            brand_price=form.brand_price.data,
-                           documents=form.documents.data)
+                           documents=user_input["documents"],
+                           est_price=est_price)
         db.session.add(task)
         db.session.commit()
 
         return jsonify(task)
 
-    return redirect(url_for(index))
+    return render_template('index.html')
 
 
 @app.route('/delete', methods=['POST'])
