@@ -39,7 +39,7 @@
             <div class="card mb-3" v-for="task, index in tasks" :key="index">
                 <div class="card-body row justify-content-between px-4" @dblClick="completeTask(task)" :class="{'completed':
                 task.completed}">
-                    { task.title }
+                    { task.taskTitle }
                     <button type="submit" class="btn-close" @click="deleteTask(task)"></button>
                 </div>
             </div>
