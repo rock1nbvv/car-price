@@ -2,36 +2,41 @@
 
 {% block content %}
     <div id="app">
-        <form @submit.prevent="createTask">
-            <div class="form-group row">
+        <h1>Used Car Price Calculator</h1>
+        <p>Get fair and unbiased price quote for your used car using our car valuation calculator.</p>
+        <form @submit.prevent="createTask" class="mx-auto">
+            <div class="row">
                 <div class="col-9">
-                    <label for="">Create new task</label>
-                    <input type="text" class="form-control" v-model="task.title">
-                    <label for="">Age of the car is: { age }</label>
-                    <input type="text" class="form-control" v-model="age" placeholder="age of the car"
-                           @keypress="validateNumber"/>
-                    <label>Mileage of the car is: { mileage }</label>
-                    <input type="text" class="form-control" v-model="mileage" placeholder="mileage of the car"
-                           @keypress="validateNumber"/>
-                    <label>Repairments number is: { repairments }</label>
-                    <input type="text" class="form-control" v-model="repairments" placeholder="number of repairments"
-                           @keypress="validateNumber"/>
-                    <label>Brand price: { brand_price }</label>
-                    <select v-model="brand_price" class="form-control" placeholder="car brand">
-                        <option v-for="brand in brands" :value="brand.price">
-                            { brand.name }
-                        </option>
-                    </select>
-                    <div>
-                        <label for="checkbox">All documents are in order</label>
+                    <div class="mb-3">
+                        <label for="ageInput" class="form-label">Age of the car is: { age }</label>
+                        <input type="text" class="form-control" id="ageInput" v-model="age" placeholder="Enter ge of the car" @keypress="validateNumber">
                     </div>
-                    <input type="checkbox" id="checkbox" v-model="checked"/>
-
+                    <div class="mb-3">
+                        <label for="mileage" class="form-label">kilometers {mileage}</label>
+                        <input type="text" class="form-control" id="mileage" v-model="mileage" placeholder="Enter kilometers driven" @keypress="validateNumber">
+                    </div>
+                    <div class="mb-3">
+                        <label for="repairments" class="form-label">Repairments number is: { repairments } </label>
+                        <input type="text" class="form-control" id="repairments" v-model="repairments" placeholder="Enter number of repairments" @keypress="validateNumber">
+                    </div>
+                    <div class="mb-3">
+                        <label for="brand" class="form-label">Brand price: { brand_price }</label>
+                        <select class="form-select" id="brand" v-model="brand_price" placeholder="Select car brand">
+                            <option v-for="brand in brands" :value="brand.price">
+                            { brand.name }
+                            </option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" id="checkbox" v-model="checked">
+                          <label class="form-check-label" for="checkbox">
+                            All documents are in order
+                          </label>
+                        </div>
+                    </div>
+                    <button class="btn btn-success w-100" type="submit">Check Value</button>
                 </div>
-            </div>
-            <div class="col-auto mt-auto">
-                <button class="btn btn-success" type="submit">Create
-                </button>
             </div>
         </form>
 
