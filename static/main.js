@@ -3,7 +3,9 @@ const TaskApp = {
 
     data() {
         return {
-            title: '',
+            task: {
+                'title': ''
+            },
             tasks: [],
             selected: '',
             age: '',
@@ -44,7 +46,7 @@ const TaskApp = {
 
         },
         async createTask() {
-            if (this.title === '' || this.title === null || this.title.value === 0
+            if (this.task.title === '' || this.task === null || this.task.value === 0
                 || this.age === '' || this.age === null || this.age.value === 0
                 || this.mileage === '' || this.mileage === null || this.mileage.value === 0
                 || this.repairments === '' || this.repairments === null || this.repairments.value === 0) {
@@ -52,7 +54,7 @@ const TaskApp = {
             } else {
                 alert(this.age + ' ' + this.mileage + ' ' + this.repairments)
                 this.car = {
-                    taskTitle: this.title,
+                    taskTitle: this.task.title,
                     age: this.age,
                     mileage: this.mileage,
                     repairments: this.repairments,
@@ -67,7 +69,7 @@ const TaskApp = {
 
                 await this.getTasks()
 
-                this.title = ''
+                this.task = ''
                 this.age = ''
                 this.mileage = ''
                 this.repairments = ''
