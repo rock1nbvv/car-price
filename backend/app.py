@@ -9,6 +9,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 
+from carEvaluation import carEvaluation
 from config import Config
 
 load_dotenv('./.flaskenv')
@@ -46,9 +47,9 @@ def get_price():
     #  everything there
 
     user_input = request.get_json()
-    print(user_input)
 
-    response = {"price": 5353}
+    result = carEvaluation(int(user_input["age"]), int(user_input["mileage"]), int(user_input["repairments"]))
+    response = {"price": result[0]}
     return jsonify(response)
 
 
