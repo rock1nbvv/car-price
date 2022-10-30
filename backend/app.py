@@ -41,15 +41,27 @@ def get_brands():
 
 @app.route('/api/evaluate', methods=['POST'])
 def get_price():
-    # TODO calculate final predicted price (params: fuzzy response, avg price, areDocsOk etc)
-
     # TODO create Table with Evaluations History, add result to this table, create History.vue component and display
     #  everything there
 
     user_input = request.get_json()
 
-    result = carEvaluation(int(user_input["age"]), int(user_input["mileage"]), int(user_input["repairments"]))
-    response = {"price": result[0]}
+    car_condition = carEvaluation(int(user_input["age"]), int(user_input["mileage"]), int(user_input["repairments"]))
+    est_price = user_input["selectedCarObj"]["price"] * car_condition[0]*0.1
+    if str(user_input["areDocsInOrder"]) != 'True':
+        est_price *= 0.2
+
+    response = {"price": est_price}
+    task = models.Task(
+        age=user_input["age"],
+        mileage=user_input["mileage"],
+        repairments=user_input["repairments"],
+        brand=user_input["selectedCarObj"]["brand"],
+        name=user_input["selectedCarObj"]["name"],
+        documents=user_input["areDocsInOrder"],
+        est_price=response["price"])
+    db.session.add(task)
+    db.session.commit()
     return jsonify(response)
 
 

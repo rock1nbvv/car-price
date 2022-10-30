@@ -8,22 +8,22 @@ import app
 class Task(app.db.Model):
 
     id: int
-    taskTitle: str
     age: int
     mileage: int
     repairments: int
-    brand_price: int
     documents: bool
     date: datetime
     completed: bool
+    brand: str
+    name: str
     est_price: int
 
     id = app.db.Column(app.db.Integer(), primary_key=True)
-    taskTitle = app.db.Column(app.db.String(140))
     age = app.db.Column(app.db.Integer())
     mileage = app.db.Column(app.db.Integer())
     repairments = app.db.Column(app.db.Integer())
-    brand_price = app.db.Column(app.db.Integer())
+    brand = app.db.Column(app.db.String(100))
+    name = app.db.Column(app.db.String(100))
     documents = app.db.Column(app.db.Boolean())
     date = app.db.Column(app.db.DateTime(), default=datetime.now())
     completed = app.db.Column(app.db.Boolean(), default=False)
@@ -33,7 +33,7 @@ class Task(app.db.Model):
         super().__init__(*args, **kwargs)
 
     def __repr__(self):
-        return f'<Task id: {self.id} - {self.title} - {self.est_price}'
+        return f'<Task id: {self.id} - {self.est_price}'
 
 
 @dataclass

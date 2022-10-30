@@ -175,6 +175,6 @@ rule_base = [
     (('good', 'good', 'mediocre'), 'good'),
     (('good', 'good', 'average'), 'very good'),
     (('good', 'good', 'normal'), 'perfect'),
-    (('good', 'good', 'good'), 'terrible'),
+    (('good', 'good', 'good'), 'perfect'),
 ]
 
