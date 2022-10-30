@@ -222,7 +222,6 @@ export default {
       this.cars = await response.json();
     },
     async evaluateCar() {
-      // TODO: form validation
       if (
         this.age === "" ||
         this.age === null ||
@@ -249,7 +248,6 @@ export default {
           "post",
           JSON.stringify(car)
         );
-        //TODO calculate final predicted price on backend
         const temp = await response.json();
         this.predictedPrice = temp.price;
 

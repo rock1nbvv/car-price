@@ -1,11 +1,25 @@
 <template>
-  <div></div>
   <div v-for="(car, index) in carHistory" :key="index">
-    <p>
-      For {{ car }} id is {{ car.id }} model is {{ car.name }} price is
-      {{ car.price }} brand is {{ car.brand }}
-    </p>
-    <v-card elevation="12"></v-card>
+    <div
+      class="card"
+      style="
+        width: 18rem;
+        float: left;
+        position: relative;
+        margin-left: 20px;
+        margin-bottom: 10px;
+      "
+    >
+      <div class="card-body">
+        <h5 class="card-title">{{ car.brand }} {{ car.name }}</h5>
+        <p class="card-text">Age: {{ car.age }}</p>
+        <p>Mileage: {{ car.mileage }}</p>
+        <p>Repairments: {{ car.repairments }}</p>
+        <p>Evaluated Price: {{ car.est_price }}</p>
+        <!--        <a href="#" class="btn btn-primary">Go somewhere</a>-->
+      </div>
+    </div>
+    <p></p>
   </div>
 </template>
 

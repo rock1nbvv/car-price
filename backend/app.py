@@ -9,6 +9,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 
+from model import model
 from carEvaluation import carEvaluation
 from config import Config
 
@@ -41,11 +42,9 @@ def get_brands():
 
 @app.route('/api/evaluate', methods=['POST'])
 def get_price():
-    # TODO create Table with Evaluations History, add result to this table, create History.vue component and display
-    #  everything there
-
+    fuzzy_model = model()
     user_input = request.get_json()
-    car_condition = carEvaluation(int(user_input["age"]), int(user_input["mileage"]), int(user_input["repairments"]))
+    car_condition = carEvaluation(int(user_input["age"]), int(user_input["mileage"]), int(user_input["repairments"]),fuzzy_model[0],fuzzy_model[1], fuzzy_model[2])
     est_price = user_input["selectedCarObj"]["price"] * car_condition[0]*0.1
     if str(user_input["areDocsInOrder"]) != 'True':
         est_price *= 0.2
