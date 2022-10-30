@@ -2,13 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-6 mx-auto mt-5">
-        <p>{{ msg }}</p>
-        <div v-for="(brand, index) in brands" :key="index">
-          <p>
-            For {{ brand }} id is {{ brand.id }} model is {{ brand.name }} price
-            is {{ brand.price }} brand is {{ brand.brand }}
-          </p>
-        </div>
+        <!--        <p>{{ msg }}</p>-->
         <h1>Used Car Price Calculator</h1>
         <p>
           Get fair and unbiased price quote for your used car using our car
@@ -229,23 +223,41 @@ export default {
     },
     async evaluateCar() {
       // TODO: form validation
+      if (
+        this.age === "" ||
+        this.age === null ||
+        this.age.value === 0 ||
+        this.mileage === "" ||
+        this.mileage === null ||
+        this.mileage.value === 0 ||
+        this.repairments === "" ||
+        this.repairments === null ||
+        this.repairments.value === 0
+      ) {
+        alert("Please fill all the fields");
+      } else {
+        const car = {
+          age: this.age,
+          mileage: this.mileage,
+          repairments: this.repairments,
+          areDocsInOrder: this.areDocsInOrder,
+          selectedCarObj: this.selectedCarObj,
+        };
+        console.log(JSON.stringify(car));
+        const response = await this.sendRequest(
+          "http://127.0.0.1:5000/api/evaluate",
+          "post",
+          JSON.stringify(car)
+        );
+        //TODO calculate final predicted price on backend
+        const temp = await response.json();
+        this.predictedPrice = temp.price;
 
-      const car = {
-        age: this.age,
-        mileage: this.mileage,
-        repairments: this.repairments,
-        areDocsInOrder: this.areDocsInOrder,
-        selectedCarObj: this.selectedCarObj,
-      };
-      console.log(JSON.stringify(car));
-      const response = await this.sendRequest(
-        "http://127.0.0.1:5000/api/evaluate",
-        "post",
-        JSON.stringify(car)
-      );
-      //TODO calculate final predicted price on backend
-      const temp = await response.json();
-      this.predictedPrice = temp.price;
+        this.task.title = "";
+        this.age = "";
+        this.mileage = "";
+        this.repairments = "";
+      }
     },
     getModelsFromBrands() {
       let testBrand = this.brandName;

@@ -27,10 +27,10 @@ def index():
     return "hello, world"
 
 
-@app.route('/api/getTasks', methods=['GET'])
+@app.route('/api/getCarHistory', methods=['GET'])
 def get():
-    tasks = [{'taskId': '1', 'title': 'First Task'}, {'taskId': '2', 'title': 'Second Task'}]
-    return jsonify(tasks)
+    carHistory = models.Task.query.all()
+    return jsonify(carHistory)
 
 
 @app.route('/api/getBrands', methods=['GET'])
@@ -45,7 +45,6 @@ def get_price():
     #  everything there
 
     user_input = request.get_json()
-
     car_condition = carEvaluation(int(user_input["age"]), int(user_input["mileage"]), int(user_input["repairments"]))
     est_price = user_input["selectedCarObj"]["price"] * car_condition[0]*0.1
     if str(user_input["areDocsInOrder"]) != 'True':
